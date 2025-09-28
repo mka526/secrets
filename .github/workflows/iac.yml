@@ -10,7 +10,7 @@ jobs:
       - uses: crowdstrike/fcs-action@v2.0.2
         with:
           falcon_client_id: 0e2aca81b6a445fea4aabef080cb8c1f
-          falcon_region: eu-1
+          falcon_region: us-1
           upload_results: true
           scan_type: iac
           path: ./
