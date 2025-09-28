@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: List results
+        run: |
+          echo "results:"; ls -la .. || true
 
       - name: CrowdStrike FCS IaC scan
         uses: CrowdStrike/fcs-action@v2.0.0
