@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: List
+        run: |
+          echo "Workspace:"; pwd
+          echo "ls -la
       - name: CrowdStrike FCS IaC scan
         uses: CrowdStrike/fcs-action@v2.0.0
         with:
@@ -19,8 +23,16 @@ jobs:
           falcon_region: eu-1            # us-1 | us-2 | eu-1 | us-gov-1 | us-gov-2
           upload_results: true           # set true to push to Falcon console
           path: "./secrets"
+          output_path: ./scan-results.json
      
         env:
           FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
           FALCON_CLIENT_ID: ${{ secrets.FALCON_CLIENT_ID }}
-
+      - name: List results
+        run: |
+          echo "Workspace:"; pwd
+          echo "Scan results:"; ls -la ./scan-results* || true
+          # Peek into JSON if present
+          if ls ./scan-results*.json > /dev/null 2>&1; then
+            echo "Top-level JSON keys:"; head -n 200 ./scan-results*.json
+          fi
