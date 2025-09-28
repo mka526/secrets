@@ -14,10 +14,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check FCS secret present
         run: |
-          if [ -z "${FALCON_CLIENT_SECRET}" ]; then
-            echo "FALCON_CLIENT_SECRET is empty (fork PRs can’t access secrets)."
-            exit 1
-          fi
+          for v in FALCON_CLIENT_ID FALCON_CLIENT_SECRET; do
+            if [ -z "${!v}" ]; then echo "$v is EMPTY at runtime"; exit 1; fi
+            echo "$v length = $(printf %s "${!v}" | wc -c | tr -d ' ')"
+          done
       - name: CrowdStrike FCS IaC scan
         uses: CrowdStrike/fcs-action@v2.0.0
         with:
@@ -28,3 +28,5 @@ jobs:
      
         env:
           FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+          FALCON_CLIENT_ID: ${{ secrets.FALCON_CLIENT_ID }}
+
