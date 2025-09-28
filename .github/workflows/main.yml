@@ -12,12 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check FCS secret present
-        run: |
-          for v in FALCON_CLIENT_ID FALCON_CLIENT_SECRET; do
-            if [ -z "${!v}" ]; then echo "$v is EMPTY at runtime"; exit 1; fi
-            echo "$v length = $(printf %s "${!v}" | wc -c | tr -d ' ')"
-          done
       - name: CrowdStrike FCS IaC scan
         uses: CrowdStrike/fcs-action@v2.0.0
         with:
