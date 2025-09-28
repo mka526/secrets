@@ -18,4 +18,4 @@ jobs:
           policy_rule: default-iac-alert-rule   # ensures rules are enabled
           report_formats: json,sarif
         env:
-          FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+          FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }} 
