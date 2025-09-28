@@ -18,7 +18,7 @@ jobs:
         with:
           falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
           falcon_region: eu-1            # us-1 | us-2 | eu-1 | us-gov-1 | us-gov-2
-          upload_results: true           # set true to push to Falcon console
+          upload_results: false           # set true to push to Falcon console
           path: "./"
           output_path: ./scan-results.json
      
