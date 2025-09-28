@@ -1,7 +1,23 @@
-- name: Run FCS IaC Scan
-  uses: crowdstrike/fcs-action@v2.0.0
-  with:
-    falcon_client_id: ${{ secrets.falcon_client_id }}
-    falcon_region: 'eu-1'
-  env:
-    FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
+name: FCS IaC scan
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  security-events: write   # needed if you upload SARIF to GitHub code scanning
+
+jobs:
+  iac-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: CrowdStrike FCS IaC scan
+        uses: CrowdStrike/fcs-action@v2.0.0
+        with:
+          falcon_client_id: ${{ secrets.falcon_client_id }}
+          falcon_region: eu-1            # us-1 | us-2 | eu-1 | us-gov-1 | us-gov-2
+          upload_results: true           # set true to push to Falcon console
+        env:
+          FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
