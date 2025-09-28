@@ -12,13 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - name: Check FCS secret present
+        run: |
+          if [ -z "${FALCON_CLIENT_SECRET}" ]; then
+            echo "FALCON_CLIENT_SECRET is empty (fork PRs can’t access secrets)."
+            exit 1
+          fi
       - name: CrowdStrike FCS IaC scan
         uses: CrowdStrike/fcs-action@v2.0.0
         with:
           falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
           falcon_region: eu-1            # us-1 | us-2 | eu-1 | us-gov-1 | us-gov-2
-          upload_results: true           # set true to push to Falcon console
+          upload_results: false           # set true to push to Falcon console
           path: "./"
+     
         env:
           FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
