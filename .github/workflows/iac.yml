@@ -1,0 +1,21 @@
+name: FCS IaC scan
+on: [push, pull_request]
+
+jobs:
+  iac-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p scan-results   # create dir so output_path works
+      - uses: crowdstrike/fcs-action@v2.0.2
+        with:
+          falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
+          falcon_region: eu-1
+          upload_results: true
+          scan_type: iac
+          path: ./
+          output_path: ./scan-results
+          policy_rule: default-iac-alert-rule   # ensures rules are enabled
+          report_formats: json,sarif
+        env:
+          FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
