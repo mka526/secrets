@@ -1,0 +1,7 @@
+- name: Run FCS IaC Scan
+  uses: crowdstrike/fcs-action@v2.0.0
+  with:
+    falcon_client_id: ${{ secrets.falcon_client_id }}
+    falcon_region: 'eu-1'
+  env:
+    FALCON_CLIENT_SECRET: ${{ secrets.FALCON_CLIENT_SECRET }}
