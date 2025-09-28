@@ -9,7 +9,7 @@ jobs:
       - run: mkdir -p scan-results   # create dir so output_path works
       - uses: crowdstrike/fcs-action@v2.0.2
         with:
-          falcon_client_id: ${{ secrets.FALCON_CLIENT_ID }}
+          falcon_client_id: 0e2aca81b6a445fea4aabef080cb8c1f
           falcon_region: eu-1
           upload_results: true
           scan_type: iac
