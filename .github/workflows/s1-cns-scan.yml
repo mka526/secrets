@@ -43,7 +43,12 @@ jobs:
           REPO_FULL_NAME: ${{ github.repository }}
           REPO_URL: ${{ github.server_url }}
           BRANCH: ${{ github.event.pull_request.head.ref }}
-
+      - name: Build image
+        run: docker build -t poc-vuln-image:${{ github.sha }} ./.docker
+      
+      - name: Scan image
+        run: s1-cns-cli scan vuln --docker-image poc-vuln-image:${{ github.sha }} --tag ${{ secrets.tag }}
+                
       - name: Run Vulnerability Scanner
         id: vuln-scanner
         continue-on-error: true
